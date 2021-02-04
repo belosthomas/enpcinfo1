@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 2 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 2</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 2 - Bonjour, Monde!</h2>
+        </section>
+        <section>
+            <h3>Un premier code</h3>
+            <section>
+                <span>
+						<pre><code class="cpp hljs">
+#include &lsaquo;iostream&rsaquo;
+using namespace std;
+
+int main()
+{
+    cout << "Hello, World!" << endl;
+    return 0;
+}
+						</code></pre>
+                </span>
+                Résultat :
+                <span>
+						<pre><code class="cpp hljs">
+Hello, World !
+						</code></pre>
+                </span>
+                Que signifie ce code ?
+            </section>
+            <section>
+                <span>
+						<pre><code class="cpp hljs">
+int main()
+{
+    ...
+    return 0;
+}
+                            </code></pre>
+                </span>
+                <p>
+                    Ce code définit une fonction appelée <code>main</code> qui renvoie un nombre entier (<code>int</code>). <span style="color: red; font-weight: bold">À l'exécution d'un programme, la fonction main est toujours automatiquement executé en premier !</span>
+                    L'instruction <code>return</code> arrête la fonction et définit le résultat de la fonction. Ici, c'est le nombre entier 0.
+                </p>
+            </section>
+            <section>
+                <span>
+						<pre><code class="cpp hljs">
+cout << "Hello, World!" << endl;
+						</code></pre>
+                </span>
+                <p>
+                    <code>cout</code> pour "Console output" permet d'écrire dans la console. <code>endl</code> pour "End line" est un saut de ligne. Ainsi, le code ci-dessus permet d'afficher "Hello, World!" et de faire un saut de ligne.
+                </p>
+            </section>
+            <section>
+                <span>
+						<pre><code class="cpp hljs">
+#include &lsaquo;iostream&rsaquo;
+using namespace std;
+						</code></pre>
+                </span>
+                <p>Sans ces deux instructions, on ne pourrait pas utiliser <code>cout</code> et <code>endl</code>. C'est l'équivalent du <code>import</code> en Python.</p>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>L'ordinateur</h3>
+                <p>On écrit un programme en C++... et magie ! L'ordinateur fait exactement ce qu'on lui demande. Mais comment ça fonctionne ?</p>
+            </section>
+            <section>
+                <h4>Le micro-processeur</h4>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/KL_AMD_Athlon_64_X2_Brisbane.jpg" style="width: 10%;"/>
+                <ul>
+                    <li>Il sait exéctuer une suite ordonnée d'instructions</li>
+                    <li>Il dialogue avec le monde extérieur via de la mémoire</li>
+                    <li>Cette mémoire contient, sous forme de nombres, les instructions à exécuter (addition, multiplication, comparaison, etc...)</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Code C++</h4>
+                <pre><code class="cpp hljs">int c = 3 * a + 2 * b;</code></pre>
+                <h4>Code Machine</h4>
+                <table>
+                    <tr>
+                        <td>
+                            Pour nous les humains<br>
+                            <b>L'assembleur</b>
+                        </td>
+                        <td>
+                            Pour la machine<br>
+                            <b>Le language machine</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>
+						        <pre><code class="asm hljs">
+mov eax,dword ptr [a]
+imul eax,eax,3
+mov ecx,dword ptr [b]
+lea edx,[eax+ecx*2]
+mov dword ptr [c],edx
+                                </code></pre>
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+						        <pre><code class="asm hljs">
+00415A61 8B 45 F8
+00415A64 6B C0 03
+00415A67 8B 4D EC
+00415A6A 8D 14 48
+00415A6D 89 55 E0
+                                </code></pre>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <!--<section>
+                <h4>Code Machine et C++</h4>
+                <p>Le code C++ est traduit en language machine par un <b>compilateur</b>. <u>Une fois traduit en langage machine pour un micro-processeur donné, un
+                    programme C++ n’a de sens que pour ce micro-processeur.</u></p>
+            </section>!-->
+            <section>
+                <h4>La mémoire</h4>
+                <ul>
+                    <li>Décomposé en octets. Un octect correspond à un nombre binaire de 8 bits. Ainsi, un octect peut contenir un nombre entre $0$ et $2^8=256$ exclus.</li>
+                    <li>Pour se repérer dans la mémoire, on numérote les octets, et on obtient ainsi des <b>Adresses mémoire</b>.</li>
+                </ul>
+                <img src="memoire.png" style="border: 10px solid white; background-color: white;"/>
+            </section>
+            <section>
+                <h4>La mémoire</h4>
+                <ul>
+                    <li>Contient les instructions des programmes</li>
+                    <li>Contient le contenu des variables de chaque programmes</li>
+                </ul>
+            </section>
+            <section>
+                <h4>La production du fichier exécutable</h4>
+                <img src="compilation.png" style="border: 10px solid white; background-color: white;"/>
+            </section>
+            <section>
+                <h3>C++ vs Python</h3>
+                <table>
+                    <tr>
+                        <td>
+                            C++
+                        </td>
+                        <td>
+                            Python
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Languages compilés</b>
+                            <p>Le programme est traduit en code machine. Ainsi, le processeur lis directement notre programme.</p>
+                        </td>
+                        <td>
+                            <b>Languages interpétés</b>
+                            <p>C'est un programme (généralement écrit en C++) qui vas interpreter le programme, et donne les instructions au processeur</p>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <section>
+                <h3>Languges compilés</h3>
+                <img src="http://data.france-ioi.org/Course/general_interpreted_vs_compiled/schema_compiled_FR.png"/><br>
+                Source : http://www.france-ioi.org/algo/course.php?idChapter=561&idCourse=2368
+            </section>
+            <section>
+                <h3>Languges interpétés</h3>
+                <img src="http://data.france-ioi.org/Course/general_interpreted_vs_compiled/schema_interpreted_FR.png"/><br>
+                Source : http://www.france-ioi.org/algo/course.php?idChapter=561&idCourse=2368
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Environnement de programmation</h3>
+            </section>
+            <section>
+                <table>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                            Windows
+                        </td>
+                        <td>
+                            Linux / Mac
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Fichier source C++
+                        </td>
+                        <td>
+                            <code>.cpp</code>
+                        </td>
+                        <td>
+                            <code>.cpp</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Fichier objet
+                        </td>
+                        <td>
+                            <code>.obj</code>
+                        </td>
+                        <td>
+                            <code>.o</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Exécutable
+                        </td>
+                        <td>
+                            <code>.exe</code>
+                        </td>
+                        <td>
+                            <code>(rien)</code>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+            <section>
+                <h4>Le debuggeur</h4>
+                <p>Permet de suivre le déroulement d'un programme instruction par instruction, et d'afficher à la demande la valeur des variables.</p>
+            </section>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

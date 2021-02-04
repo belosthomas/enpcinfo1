@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 5 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 4</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Multi column -->
+    <style>
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 7</h2>
+        </section>
+        <section>
+            <section>
+                <h3>La mémoire</h3>
+            </section>
+            <section>
+                <h4>Que fait ce programme ?</h4>
+                <pre><code style="font-size: 50%; line-height: 115%;">
+#include &lsaquo;iostream&rsaquo;
+using namespace std;
+
+void verifie(int p, int q, int quo, int res) {
+    if (res&lsaquo;0 || res&rsaquo;=q || q*quo+res!=p)
+        cout << "Tiens, c'est bizarre !" << endl;
+}
+
+int divise(int a, int b, int &r) {
+    int q;
+    q = a / b;
+    r = a - q * b;
+    verifie(a, b, q, r);
+    return q;
+}
+
+int main() {
+    int num, denom;
+    do {
+        cout &lsaquo;&lsaquo; "Entrez deux entiers positifs : ";
+        cin &rsaquo;&rsaquo; num &rsaquo;&rsaquo; denom;
+    } while(num&lsaquo;=0 || denom&lsaquo;=0);
+    int quotient, reste;
+    quotient = divise(num, denom, reste);
+    cout &lsaquo;&lsaquo; num &lsaquo;&lsaquo; "/" &lsaquo;&lsaquo; denom &lsaquo;&lsaquo; " = " &lsaquo;&lsaquo; quotient
+         &lsaquo;&lsaquo; " (Il reste " &lsaquo;&lsaquo; reste &lsaquo;&lsaquo; ")" &lsaquo;&lsaquo; endl;
+    return 0;
+}
+                </code></pre>
+            </section>
+            <section data-background-image="images/01.png" data-background-size="contain">
+            </section>
+            <section data-background-image="images/02.png" data-background-transition-out="none" data-background-size="contain">
+                <h4 style="font-family: Consolas,monaco,monospace; background-color: black; color: white;" class="fragment">Entrez deux entiers positifs: <span class="fragment">23</span> <span class="fragment">3</span></h4>
+            </section>
+            <section data-background-image="images/03.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/04.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/05.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/06.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/07.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/08.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/09.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/10.png" data-background-transition="none" data-background-size="contain">
+                <p style="background-color: black; color: white;" class="fragment">Un appel de fonction est un mécanisme qui permet de partir exécuter momentanément cette fonction puis de retrouver la suite des instructions et les variables qu'on avait provisoirement quittées.</p>
+            </section>
+            <section data-background-image="images/11.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/12.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/13.png" data-background-transition="none" data-background-size="contain">
+                <h4 style="font-family: Consolas,monaco,monospace; background-color: black; color: white;">23/3 = 7 (Il reste 2)</h4>
+            </section>
+            <section data-background-image="images/14.png" data-background-transition-in="none" data-background-size="contain">
+            </section>
+            <section>
+                <h4>Pile et File</h4>
+                <p>Deux structures permettant de mémoriser des données dans laquelle celles-ci s'empilent</p>
+            </section>
+            <section>
+                <div class="container">
+                    <div class="col">
+                        <h4>Pile (Stack)</h4>
+                        <p>Celui qui est rangé en dernier dans la pile en est extrait en premier</p>
+                        <p style="color: #de5d65">LIFO (Last in first out)</p>
+                    </div>
+                    <div class="col">
+                        <h4>File</h4>
+                        <p>Le premier arrivé est le premier sorti</p>
+                        <p style="color: #de5d65">FIFO (First in first out)</p>
+                    </div>
+                </div>
+            </section>
+            <section data-background-image="images/stack.png" data-background-transition-out="none" data-background-size="contain">
+            </section>
+            <section>
+            <h4>La pile des appels</h4>
+            </section>
+            <section data-background-image="images/04.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/05.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/07.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/08.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/09.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/10.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/11.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section data-background-image="images/12.png" data-background-transition="none" data-background-size="contain">
+            </section>
+            <section>
+                <h4>Les variables locales</h4>
+                <h5>Les paramètres</h5>
+                <p>Les paramètres sont en fait des variables locales! Leur seule spécificité est d'être initialisés dès le début de la fonction avec les valeurs passées à l'appel de la fonction</p>
+            </section>
+            <section>
+                <h4>Les variables locales</h4>
+                <h5>La pile</h5>
+                <p>Les variables locales sont mémorisées dans une pile :
+                <ul>
+                    <li>Quand une variable locale est créée, elle est rajoutée en haut de cette pile</li>
+                    <li>Quand elle meurt (en général quand on quitte sa fonction) elle est sortie de la pile</li>
+                </ul>
+                </p>
+            </section>
+            <section>
+                <h4>Les fonctions récursives</h4>
+                <pre><code class="cpp hljs">
+int fact(int n) {
+    if (n == 1) return 1;
+    return n * fact1(n - 1);
+}
+                </code></pre>
+                <h5>Pourquoi ça marche ?</h5>
+                <p>Les fonctions récursives ne sont pas différentes des autres. C'est le système d'appel des fonctions en général qui rend la récursivité possible.</p>
+            </section>
+            <section>
+                <h4>Les fonctions récursives</h4>
+                <h5>Efficacité</h5>
+                <p><ul><li>La pile des appels n'est pas infinie et même relativement limitée</li>
+                <li>Appeler une fonction est un mécanisme coûteux !</li>
+                <pre><code class="cpp hljs">
+int fact3(int n) {
+    if (n == 1) return 1;
+    return n * fact1(n + 1); // Erreur !!
+}
+                </code></pre>
+            </ul></p>
+            </section>
+            <section>
+                <h4>Version Dérécursivée (ou Iterative)</h4>
+                <pre><code class="cpp hljs">
+int fact(int n) {
+    if (n == 1) return 1;
+    return n * fact1(n - 1);
+}
+
+int fact2(int n) {
+    int f = 1;
+    for (int i = 2; i <= n; i++) f *= i;
+    return f;
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Version Dérécursivée (ou Iterative)</h4>
+                <pre><code class="cpp hljs">
+// Trés lent !!
+int fib1(int n) {
+    if (n < 2) return 1;
+    return fib1(n - 2) + fib1(n - 1);
+}
+
+//Dérécursivée
+int fib2(int n) {
+    int fnm2 = 1, fnm1 = 1;
+    for (int i = 2; i <= n; i++) {
+        int fn = fnm2 + fnm1;
+        fnm2 = fnm1;
+        fnm1 = fn;
+    }
+    return fnm1;
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Le tas</h4>
+                <p>La pile est limitée en taille</p>
+                <pre><code class="cpp hljs">
+int main() {
+    const int n = 500000;
+    int t[n]; // stack overflow !!
+    ...
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Le tas</h4>
+                <h5>Tableaux de taille variable</h5>
+                <pre><code class="cpp hljs">
+int main() {
+    const int n = 500000;
+    int* t = new int[n];
+    ...
+    delete[] t;
+}
+                </code></pre>
+                <ul>
+                    <li>Pour les tableaux de taille variable</li>
+                    <li>Pour les tableaux de grande taille</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Assertions</h4>
+                <p>La fonction assert() prévient quand un test est faux, et précise le fichier et le numéro de ligne. Elle ne ralentit pas les programmes car elle disparaît à la compilation en mode Release.</p>
+                <pre><code class="cpp hljs">
+#include &lsaquo;cassert&rsaquo;
+
+...
+int n;
+cin >> n;
+assert(n > 0);
+int* t = new int[n];
+...
+delete[] t;
+                </code></pre>
+            </section>
+            <section>
+                <h4>&Tableaux bidimensionnels</h4>
+                <pre><code class="cpp hljs">
+const int m = 5, n = 3;
+
+struct Tableau {
+    double tab[m][n];
+};
+
+void f(Tableau &t) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            t.tab[i][j] = cos(M_PI * i / m) * sin(M_PI * j / n);
+        }
+    }
+    cout << t.tab[m - 1][n - 1] << endl;
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Examens sur machine</h4>
+                <p>Nous vous conseillons de vous confronter aux examens proposés sur le site du cours !</p>
+            </section>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 1 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Installation de "Qt Creator - Version ENPC"</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style>
+        .instruction {
+            background-color: rgba(0,0,0,0.5);
+            font-size: 120%;
+        }
+    </style>
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h2>Installation de "Qt Creator - Version ENPC"</h2>
+        </section>
+        <section>
+            <h3>Procurez-vous "Qt Creator - Version ENPC"</h3>
+            <ul>
+                <li>Depuis une clé USB</li>
+                <li>Depuis <a href="http://thomas.belos.ovh/cours-de-cpp/qt-creator/" target="_blank">la page dédié</a></li>
+            </ul>
+        </section>
+        <section data-background="step2.PNG" data-background-size="contain">
+            <span class="instruction">Exécutez le fichier d'installation</span>
+        </section>
+        <section data-background="step3.PNG" data-background-size="contain">
+            <span class="instruction">Si vous voyez cette fenêtre, appuyez sur "Informations complémentaires"...</span>
+        </section>
+        <section data-background="step4.PNG" data-background-size="contain">
+            <span class="instruction">...Puis sur "Exécutez quand même"</span>
+        </section>
+        <section data-background="step5.PNG" data-background-size="contain">
+            <span class="instruction">Appuyez sur "Suivant"</span>
+        </section>
+        <section data-background="step6.PNG" data-background-size="contain">
+            <span class="instruction">Appuyez sur "Installer". Et acceptez les droit administrateur.</span>
+        </section>
+        <section data-background="step7.PNG" data-background-size="contain">
+            <span class="instruction">L'installation peut prendre beaucoup de temps. Profitez-en pour lire le cours !</span>
+        </section>
+        <section data-background="step8.PNG" data-background-size="contain">
+            <span class="instruction">Une fois l'installation fini, appuyez sur "Terminer", cela ouvrira Qt Creator.</span>
+        </section>
+        <section>
+            <span class="instruction">Nous allons maintenant ouvrir un projet de test pour vérifier que tout fonctionne correctement.</span>
+        </section>
+        <section data-background="step9.PNG" data-background-size="contain">
+            <span class="instruction">Téléchargez le "Programme supplémentaire" du TP 1, sur le <a href="http://imagine.enpc.fr/~monasse/Info1/" target="_blank">site de Pascal Monasse</a></span>
+        </section>
+        <section data-background="step10.PNG" data-background-size="contain">
+            <span class="instruction">Extrayez le fichier téléchargé en faisant un clic droit sur le fichier, et en appuyant sur "Extraire tout".</span>
+        </section>
+        <section data-background="step11.PNG" data-background-size="contain">
+            <span class="instruction">Déplacez le dossier extrait "Tp1_Final" dans le dossier C:/ENPC/Projects. <b>C'est ici que vous créerez tout vos projet !</b></span>
+        </section>
+        <section data-background="step12.PNG" data-background-size="contain">
+            <span class="instruction">Ouvrez la fenêtre de Qt Creator. Appuyez sur le menu en haut à gauche "Fichier", puis sur "Ouvrir un fichier ou un projet...". Naviguez dans C:/ENPC/Projects/Tp1_Final et sélectionner le fichier "CMakeLists.txt".</span>
+        </section>
+        <section data-background="step13.PNG" data-background-size="contain">
+            <span class="instruction">Appuyez sur le bouton "Configure Project". Vous aurez à faire cette étape pour chacun de vos projets.</span>
+        </section>
+        <section data-background="step14.PNG" data-background-size="contain">
+            <span class="instruction">Appuyez sur le bouton vert en forme de triangle en bas à droite pour exécuter le projet. Si tout se passe bien, vous devriez voir une fenêtre apparaitre avec une balle rebondir à l'intérieur !</span>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

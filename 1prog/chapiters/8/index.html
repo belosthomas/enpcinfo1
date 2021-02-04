@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 5 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 4</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Multi column -->
+    <style>
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+
+        .mytable {
+            border: 1px solid white !important;;
+        }
+
+        .mytable tr {
+            border: 1px solid white !important;;
+        }
+
+        .mytable td {
+            border: 1px solid white !important;;
+        }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 8</h2>
+        </section>
+        <section>
+            <section>
+                <h3>Tableaux bidimensionnels</h3>
+            </section>
+            <section>
+                <h4>Principe</h4>
+                <pre><code class="cpp hljs">
+int A[2][3];
+for (int i = 0; i < 2; i++) {
+	for (int j = 0; j < 3; j++) {
+		A[i][j] = i + j;
+	}
+}
+int B[2][3] = {{1,2,3},{4,5,6}};
+const int M = 2, N = 3;
+int C[M][N];
+                </code></pre>
+            </section>
+            <section>
+                <h4>Principe</h4>
+                <p>Notons que le passage est toujours par référence...</p>
+                <pre><code class="cpp hljs">
+void set(double A[2][3]) {
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 3; j++) {
+			A[i][j] = i + j;
+		}
+	}
+}
+
+...
+
+double F[2][3];
+set(F);
+                </code></pre>
+            </section>
+            <section>
+                <h4>Limitations</h4>
+                <p>On aimerait créer une fonction "set" qui à chaque case du tableau (x, y) associe la valeur x + y. Pour un tableau de taille 2 x 3, cela donnerait : <br>
+                <table class="mytable">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                    </tr>
+                </table>
+                </p>
+            </section>
+            <section>
+                <h4>Limitations</h4>
+                <p>On est obligé de préciser les dimensions d'un tableau 2D paramètre de fonction.</p>
+                <pre><code class="cpp hljs">
+void set(double A[2][3]) {
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 3; j++) {
+			A[i][j] = i + j;
+		}
+	}
+}
+
+...
+
+double F[2][3];
+set(F);
+                </code></pre>
+            </section>
+            <section>
+                <h4>Limitations</h4>
+                <p>On est obligé de préciser les dimensions d'un tableau 2D paramètre de fonction.</p>
+                <pre><code class="cpp hljs">
+// Ne fonctionne pas !! double A[][] refusé
+void set(double A[][], int m, int n) {
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			A[i][j] = i + j;
+		}
+	}
+}
+
+...
+
+double F[6][7];
+set(F, 6, 7);
+                </code></pre>
+            </section>
+            <section>
+                <h4>Solution !</h4>
+                <p>
+                    Stocker le tableau 2D comme un tableau 1D<br>
+                    <table class="mytable">
+                        <tr>
+                            <td>B[0] = 1</td>
+                            <td>B[2] = 2</td>
+                            <td>B[4] = 3</td>
+                        </tr>
+                        <tr>
+                            <td>B[1] = 4</td>
+                            <td>B[3] = 5</td>
+                            <td>B[5] = 6</td>
+                        </tr>
+                    </table>
+                </p>
+            </section>
+            <section>
+                <h4>Limitations</h4>
+                <p>Impossible de faire des allocation dynamiques de tableau 2D</p>
+                <pre><code class="cpp hljs">
+new double[6][7]; // NON !! Ne fonctione pas !!
+                </code></pre>
+            </section>
+            <section>
+                <h4>Solutions</h4>
+                <p>Stocker le tableau 2D comme un tableau 1D (Encore !)</p>
+                <pre><code class="cpp hljs">
+double *F = new double[6 * 7];
+set(F, 6, 7);
+delete[] F;
+                </code></pre>
+            </section>
+            <section>
+                <h4>Quand libérer ?</h4>
+                <pre><code class="cpp hljs">
+double *F = new double[n];
+// ...
+delete[] F; // Si F ne sert plus dans la suite...
+            // Autant libérer maintenant...
+                </code></pre>
+            </section>
+            <section>
+                <h4>Pointeurs et fonctions</h4>
+                <pre><code class="cpp hljs">
+void f(int *t, int n) {
+	...
+	t[i] = ...; // On modifie t[i] mais pas t !
+	t = ...; // Une telle ligne ne changerait pas 's' dans la fonction appelante;
+}
+
+...
+
+int *s = new int[m];
+f(s, m);
+                </code></pre>
+            </section>
+            <section>
+                <h4>Pointeurs et fonctions</h4>
+                <p>
+                    Un tableau est en fait passé via son adresse. Cette adresse est passée par valeur. Mais ce mécanisme permet à la fonction appelée de modifier le tableau. Dire qu'un tableau est passé par référence était un abus de langage simplificateur.
+                </p>
+            </section>
+            <section>
+                <h4>Pointeurs et fonctions</h4>
+                <pre><code class="cpp hljs">
+void alloue(int *&t, int &n) {
+	cin >> n;
+	t = new int[n];
+}
+
+...
+
+int *t;
+int n;
+alloue(t, n);
+...
+delete[] t;
+                </code></pre>
+            </section>
+            <section>
+                <h4>Structures e allocation dynamique</h4>
+                <p>Je vous invite à aller voir à la page 113</p>
+            </section>
+            <section>
+            	<h4>Syntaxe</h4>
+            	<pre><code class="cpp hljs">
+int *a = new int;
+*a = 6;
+delete a;
+            	</code></pre>
+            	<pre><code class="cpp hljs">
+int *a = new int[10];
+a[1] = 6;
+delete[] a;
+            	</code></pre>
+            </section>
+            <section>
+            	<h4>Syntaxe</h4>
+            	<pre><code class="cpp hljs">
+int a = 10;
+int *pa = &amp;a;
+*pa = 20;
+cout << a << endl; // 20
+            	</code></pre>
+            	<pre><code class="cpp hljs">
+int a[10];
+int *pa = a;
+pa[2] = 6;
+cout << pa[2] << endl; // 6
+            	</code></pre>
+            </section>
+        </section>
+        <section>
+            <h3>Boucles et continue</h3>
+            <section>
+                <h4>Boucles et continue</h4>
+                <pre><code class="cpp hljs">
+for (...) {
+	...
+	if (A)
+		continue;
+	...
+	if (B)
+		break;
+	...
+}
+                </code></pre>
+            </section>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

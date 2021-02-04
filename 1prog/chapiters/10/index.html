@@ -1,0 +1,550 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 10 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 10</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Multi column -->
+    <style>
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+
+        .mytable {
+            border: 1px solid white !important;;
+        }
+
+        .mytable tr {
+            border: 1px solid white !important;;
+        }
+
+        .mytable td {
+            border: 1px solid white !important;;
+        }
+
+        .refpoly {
+            font-size: 50%;
+            opacity: 50%;
+        }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 10</h2>
+        </section>
+        <section>
+            <section>
+                <h3>Constructeurs et Destructeurs</h3>
+                <span class="refpoly">Page 137</span>
+            </section>
+            <section>
+                <h4>Problème</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    void get(int &x, int &y);
+    void set(int X, int Y);
+};
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+// OK
+point a;
+a.set(2,3);
+
+// Ne fonctionne pas
+point b={2,3};
+                        </code></pre>
+                    </div>
+                </div>
+                <p>On ne peut remplir les champs privés d’un objet, même à l’initialisation, car cela permettrait d’accéder en écriture à une partie privée !</p>
+                <span class="refpoly">Page 137</span>
+            </section>
+            <section>
+                <h4>Les constructeurs</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    point(int X, int Y);
+};
+
+point::point(int X, int Y) {
+    x = X;
+    y = Y;
+}
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+// Ok !
+point b = {2,3};
+
+// Ok !
+point c(2, 3);
+                        </code></pre>
+                    </div>
+                </div>
+                <p>Le constructeur est appelé à la création de l’objet et ses paramètres sont passés avec la syntaxe ci-dessus.</p>
+                <span class="refpoly">Page 138</span>
+            </section>
+
+            <section>
+                <h4>Le constructeur vide</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    point(int X, int Y);
+};
+
+point::point(int X, int Y) {
+    x = X;
+    y = Y;
+}
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+// Ne fonctionne plus :(
+// Car il n'existe pas
+// de constructeur vide !
+point a;
+a.set(2,3);
+                        </code></pre>
+                    </div>
+                </div>
+                <p>
+                    Lorsqu’un objet est créé sans rien préciser, c’est le constructeur vide qui est appelé, c’est-à-dire celui sans paramètre.
+                </p>
+                <span class="refpoly">Page 138</span>
+            </section>
+            <section>
+                <h4>Plusieurs constructeurs</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    point();
+    point(int X, int Y);
+};
+
+point::point() { }
+
+point::point(int X, int Y) {
+    x = X;
+    y = Y;
+}
+
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+// Utilise le constructeur
+// sans argument
+point a;
+
+// Utilise le constructeur
+// avec arguments
+point b(2, 3);
+                        </code></pre>
+                    </div>
+                </div>
+                <span class="refpoly">Page 140</span>
+            </section>
+            <section>
+                <h4>Les constructeurs</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    void set(int X, int Y);
+};
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+// Utilise le constructeur
+// par défaut.
+point a;
+a.set(2,3);
+                        </code></pre>
+                    </div>
+                </div>
+                <p>Si on ne définit aucun constructeur, tout se passe comme s’il n’y avait qu’un constructeur vide ne faisant rien.</p>
+                <span class="refpoly">Page 140</span>
+            </section>
+            <section>
+                <h4>Tableaux d'objets</h4>
+                <pre><code class="cpp hljs">
+// Construit 3 fois avec le constructeur vide
+// sur chacun des éléments du tableau
+point t[3];
+
+// Idem, n fois
+point *s = new point[n];
+
+// ERREUR et HORREUR !! Ceci est impossible !!
+point *u = new point(1,2)[n];
+                </code></pre>
+                <p>
+                    Il n’est pas possible de spécifier globalement quel constructeur est appelé pour les éléments d’un tableau. C’est toujours le constructeur vide qui est appelé.
+                </p>
+                <span class="refpoly">Page 141</span>
+            </section>
+
+            <section>
+                <h4>Objets temporaires</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+void f(point p) {
+    ...
+}
+
+void g() {
+    return point(1, 2);
+}
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+f(point(3,4));
+point b;
+b = g();
+b = point(5, 6);
+                        </code></pre>
+                    </div>
+                </div>
+                <p>
+                    On peut, en appelant soi-même un constructeur, construire un objet sans qu’il  soit  rangé  dans  une  variable.  En  fait  il  s’agit  d’un  objet  temporaire sans nom de variable et qui meurt le plus tôt possible.
+                </p>
+                <span class="refpoly">Page 142</span>
+            </section>
+
+            <section>
+                <h4>Méthodes constantes</h4>
+                <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    void set(int X, int Y);
+    int getX() const;
+    int getY() const;
+};
+
+int point::getX() const {
+    return x;
+}
+                </code></pre>
+                <p>
+                    Une méthode constante peut lire les membres, mais ne peut les modifiers.
+                </p>
+                <span class="refpoly">Page 143</span>
+            </section>
+
+            <section>
+                <h4>Références constantes</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class point {
+    int x, y;
+public:
+    void set(int X, int Y);
+    int getX() const;
+    int getY() const;
+};
+
+int point::getX() const {
+    return x;
+}
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+void f(point &p) {
+    p.set(5, 5); // OK
+    int x = p.getX(); // OK
+}
+
+void g(const point &p) {
+    p.set(5, 5); // ERREUR !!
+    int x = p.getX(); // OK !
+}
+                        </code></pre>
+                    </div>
+                </div>
+                <p>Lorsqu'un objet est passé par référence constante, seules ses méthodes constantes peuvent être utilisées.</p>
+                <span class="refpoly">Page 143</span>
+            </section>
+
+            <section>
+                <h4>Les destructeurs</h4>
+                <div class="container">
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+class obj {
+public:
+    obj();
+    ~obj();
+}
+
+obj::obj() {
+    cout << "Bonjour !" << endl;
+}
+
+obj::~obj() {
+    cout << "Au revoir !" << endl;
+}
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <pre><code class="cpp hljs">
+void f() {
+    // Le constructeur de obj
+    // affiche "Bonjour !"
+    obj monobj;
+
+    // ...
+
+    // A la fin de f(), obj est détruit.
+    // Son destructeur est appelé,
+    // et affiche "Au revoir !"
+}
+                        </code></pre>
+                    </div>
+                </div>
+                <p>Lorsqu’un objet meurt, une autre de ses méthodes est appelée : le destructeur.</p>
+                <span class="refpoly">Page 146</span>
+            </section>
+
+
+            <section>
+                <h4>Les destructeurs</h4>
+                <pre><code class="cpp hljs">
+class obj {
+    char *tab;
+    int tabsize;
+public:
+    obj(int n);
+    ~obj();
+}
+
+obj::obj(int n) {
+    tab = new char[n]
+    tabsize = n;
+}
+
+obj::~obj() {
+    delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+    obj monobj(10);
+    // ...
+    return 0;
+}
+                </code></pre>
+                <p>Le destructeur permet de libérer la mémoire lorsqu'un objet est détruit.</p>
+            </section>
+
+            <section>
+                <h4>Problème des destructeurs</h4>
+                <pre><code class="cpp hljs">
+class obj {
+    char *tab;
+    int tabsize;
+public:
+    obj(int n);
+    ~obj();
+}
+
+obj::obj(int n) {
+    tab = new char[n]
+    tabsize = n;
+}
+
+obj::~obj() {
+    delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+    obj monobj(10);
+    obj copiedeobj = monobj;
+    return 0; // tab est détruit 2 fois !!
+}
+                </code></pre>
+            </section>
+
+
+            <section>
+                <h4>Solution : Constructeur de copie</h4>
+                <pre><code class="cpp hljs">
+class obj {
+    char *tab;
+    int tabsize;
+public:
+    obj(int n);
+    obj(obj &o);
+    ~obj();
+}
+
+obj::obj(int n) {
+    tab = new char[n]
+    tabsize = n;
+}
+
+obj::obj(const obj &o) {
+    tab = new char[o.tabsize];
+    tabsize = o.tabsize;
+    for (int i = 0; i < tabsize; i++) {
+        tab[i] = o.tab[i];
+    }
+}
+
+obj::~obj() {
+    delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+    obj monobj(10);
+    obj copiedeobj = monobj; // Appel le constructeur de copie
+    return 0; // OK !!
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h4>Solution : Opérateur d'affection</h4>
+                <pre><code class="cpp hljs">
+class obj {
+    char *tab;
+    int tabsize;
+public:
+    obj();
+    obj(int n);
+    obj(obj &o);
+    ~obj();
+    void operator=(const obj &o);
+}
+
+obj::obj() {
+}
+
+obj::obj(int n) {
+    tab = new char[n]
+    tabsize = n;
+}
+
+obj::obj(const obj &o) {
+    tab = new char[o.tabsize];
+    tabsize = o.tabsize;
+    for (int i = 0; i < tabsize; i++) {
+        tab[i] = o.tab[i];
+    }
+}
+
+obj::~obj() {
+    delete[] tab;
+}
+
+void obj::operator=(const obj &o) {
+    delete[] tab;
+    tab = new char[o.tabsize];
+    tabsize = o.tabsize;
+    for (int i = 0; i < tabsize; i++) {
+        tab[i] = o.tab[i];
+    }
+}
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+    obj monobj(10);
+    obj copiedeobj;
+    copiedeobj = monobj; // Appel l'opérateur d'affectation
+    return 0; // OK !!
+}
+                </code></pre>
+            </section>
+
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

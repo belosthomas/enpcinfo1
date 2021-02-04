@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 5 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 9</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Multi column -->
+    <style>
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+
+        .mytable {
+            border: 1px solid white !important;;
+        }
+
+        .mytable tr {
+            border: 1px solid white !important;;
+        }
+
+        .mytable td {
+            border: 1px solid white !important;;
+        }
+
+        .refpoly {
+            font-size: 50%;
+            opacity: 50%;
+        }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 9</h2>
+        </section>
+        <section>
+            <section>
+                <h3>Les objets</h3>
+                <span class="refpoly">Page 120</span>
+            </section>
+            <section>
+                <div class="container">
+                    <div class="col">
+                        <b>Procédurale</b>
+                        <pre><code class="cpp hljs">
+obj a;
+// fonction f(p) appliquée à a
+int i = f(a);
+                        </code></pre>
+                    </div>
+                    <div class="col">
+                        <b>Orientée objet</b>
+                        <pre><code class="cpp hljs">
+obj a;
+// appel à la méthode f() de a
+int i = a.f();
+                        </code></pre>
+                    </div>
+                </div>
+                <p>
+                    Ce ne sont plus les fonctions qui travaillent sur des données. <u>Ce sont les données qui possèdent des fonctionnalités.</u>
+                </p>
+            </section>
+            <section>
+                <u>Il ne faut pas abuser des objets</u>, surtout lorsqu’on est débutant. Les dangers sont en effet :
+                <ul>
+                    <li>de voir des objets là où il n’y en n’a pas. Instructions et données ne sont pas toujours liées.</li>
+                    <li>de mal penser l’organisation des données ou des instructions en objets.</li>
+                </ul>
+                <br><br>
+                Un conseil donc : quand ça devient trop compliqué pour vous, abandonnez les objets.
+            </section>
+            <section>
+                <h4>Exemple simple</h4>
+                <pre><code class="cpp hljs">
+struct obj {
+	int x;        // champs x
+	int f();      // méthode f()
+	int g(int y); // méthode g()
+}
+
+int main() {
+	obj a;
+	a.x = 3;
+	int i = a.f();
+	int j = a.g(2);
+    ...
+}
+                </code></pre>
+                <p>
+                    Les fonctions de obj sont appelé des méthodes.
+                </p>
+                <span class="refpoly">Page 122</span>
+            </section>
+            <section>
+                <h4>Exemple simple</h4>
+                <pre><code class="cpp hljs">
+struct obj2 {
+
+	double x;   // champs x
+	double f(); // méthode f() (déclaration)
+
+}
+
+int obj2::f() { // méthode f() de obj1 (définition)
+	...
+	return ...
+}
+
+int main() {
+	obj2 b;
+	double y = b.f(); // méthode f() de b (donc obj2::f())
+	...
+}
+                </code></pre>
+                <p>Pour permettre à plusieurs objets d’avoir les mêmes noms de méthodes, on préfixe leur définition par le nom de l’objet suivi de ::</p>
+                <span class="refpoly">Page 123</span>
+            </section>
+            <section>
+                <h4>Visibilité</h4>
+                <pre><code class="cpp hljs">
+struct Vector {
+
+    double x;   // champs x
+    double y;   // champs y
+
+    double norm();
+}
+
+int Vector::norm() { // méthode f() de obj1 (définition)
+	return sqrt((x * x) + (x * x) + (y * y) + (y * y));
+}
+                </code></pre>
+                <p>
+                    Dans ses méthodes, un objet accède directement à ses champs et à ses autres méthodes, c’est-à-dire sans rien mettre devant !
+                </p>
+                <span class="refpoly">Page 124</span>
+            </section>
+            <section>
+                <h4>Exemple des matrices</h4>
+                <p>Voir page 125/126</p>
+            </section>
+            <section>
+                <h4>Opérateur</h4>
+                <pre><code class="cpp hljs">
+struct Vector {
+
+    double x;
+    double y;
+
+    Vector operator*(double factor);
+}
+
+Vector Vector::operator*(double factor) {
+	Vector result;
+    result.x = x * factor;
+    result.y = y * factor;
+    return result;
+}
+                </code></pre>
+                <span class="refpoly">Page 127</span>
+            </section>
+            <section>
+                <h4>Interface</h4>
+                <pre><code class="cpp hljs">
+struct Vector {
+
+    double x;
+    double y;
+
+    Vector operator*(double factor);
+    double norm();
+}
+
+int main() {
+	Vector a, b
+	...
+	Vector c = a * 10;
+	double result = c.norm();
+}
+                </code></pre>
+                <p>
+Le main n'utilise plus les champs des Vector, mais seulement leurs méthodes.
+                </p>
+                <span class="refpoly">Page 129</span>
+            </section>
+            <section>
+                <h4>Interface</h4>
+                <p>
+                    Si  l’utilisateur des Vector se conforme aux déclarations des méthodes ci-dessus, leur concepteur peut les programmer comme il l’entend. Il peut même les reprogrammer ensuite d’une autre façon : les programmes de l’utilisateur marcheront toujours ! C’est le concept même d’une interface !
+                </p>
+                <span class="refpoly">Page 129</span>
+            </section>
+            <section>
+                <h4>Protection</h4>
+                <pre><code class="cpp hljs">
+class Vector {
+
+    double x;
+    double y;
+
+public:
+    Vector operator*(double factor);
+    double norm();
+}
+                </code></pre>
+                <p>Rien n'empêche l'utilisateur de faire des bêtises. Du coup, on protége le code ! Les membres x et y de classe Vector ne sont pas accessible depuis l'extérieur.</p>
+                <span class="refpoly">Page 130</span>
+            </section>
+            <section>
+                <h4>Structure VS Classes</h4>
+                <p>Une structure est une classe où tout est public.</p>
+                <span class="refpoly">Page 131</span>
+            </section>
+            <section>
+                <h4>Accesseurs</h4>
+                <pre><code class="cpp hljs">
+class Vector {
+
+    double x;
+    double y;
+
+public:
+    Vector operator*(double factor);
+    double norm();
+
+    double getX();
+    void setX(double x);
+}
+                </code></pre>
+                <p>
+                    Les méthodes get() et set() qui permettent d’accéder en lecture (get) ou en écriture(set) à notre classe, sont appelées <b>accesseurs</b>.
+                </p>
+                <span class="refpoly">Page 131</span>
+            </section>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

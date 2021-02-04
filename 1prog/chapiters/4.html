@@ -1,0 +1,156 @@
+﻿			<section>
+				<h1>Introduction au C++</h1>
+				<h2>Chapitre 4</h2>
+			</section>
+			<section>
+				<section>
+					<span>
+						<h4>Plusieurs balles</h4>
+						<pre><code class="cpp hljs">
+int x1, y1, u1, v1; // Balle 1
+int x2, y2, u2, v2; // Balle 2
+int x3, y3, u3, v3; // Balle 3
+
+BougeBalle(x1, y1, u1, v1);
+BougeBalle(x2, y2, u2, v2);
+BougeBalle(x3, y3, u3, v3);
+						</code></pre>
+						<p class="fragment">
+							Comment faire pour avoir 1000 balles ?
+						</p>
+					</span>
+				</section>
+				<section>
+					<span>
+						<h4>Plusieurs balles... avec des tableaux !</h4>
+						<pre><code class="cpp hljs">
+int x[1000], y[1000], u[1000], v[1000];
+for (int i = 0; i < 1000; i++) {
+	BougeBalle(x[1], y[1], u[i], v[i]);
+}
+						</code></pre>
+					</span>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h3>Les tableaux</h3>
+				</section>
+				<section>
+					<span>
+						<h4>Définition</h4>
+						<pre><code class="cpp hljs">
+// Déclare un tableau de type double de taille 4
+double montableau[4];
+						</code></pre>
+					</span>
+					<span class="fragment">
+						<h4>Affectation</h4>
+						<pre><code class="cpp hljs">
+// Assigne à la 1ère case de mon tableau la valeur 8.6;
+montableau[0] = 8.6;
+// Assigne à la 3ème case mon tableau la valeur 3.4
+montableau[2] = 3.4;
+						</code></pre>
+					</span>
+					<span class="fragment">
+						<h4>Une des erreurs les plus fréquentes en C++</h4>
+						<pre><code class="cpp hljs">
+montableau[4] = 5.6; // ERREUR !!
+						</code></pre>
+					</span>
+				</section>
+				<section>
+					<span>
+						<h4>Initialisation</h4>
+						<pre><code class="cpp hljs">
+int t[4] = {1, 2, 3, 4};
+string s[2] = {"hip", "hop"};
+						</code></pre>
+					</span>
+					<span class="fragment">
+						<h4>La taille peut être une variable constante</h4>
+						<pre><code class="cpp hljs">
+const int n = 5;
+string s[n]; // Un tableau de taille 5
+						</code></pre>
+					</span>
+				</section>
+				<section>
+					<span>
+						<h4>Affectation</h4>
+						<pre><code class="cpp hljs">
+int t[2];
+t = {1, 2}; // Erreur ! Affecter un tableau ne marche pas !
+
+// Il faut traiter les éléments du tableau un par un...
+t[0] = 1;
+t[1] = 2;
+						</code></pre>
+					</span>
+					<span class="fragment">
+						<pre><code class="cpp hljs">
+int t[2];
+int u = {1, 2}; // Erreur ! Affecter un tableau ne marche pas !
+t = u; // Ne fait pas ce qu'il faut ! Mais compile sans warning !!
+						</code></pre>
+					</span>
+				</section>
+				<section>
+					<h4>Tableaux et fonctions</h4>
+					<pre><code class="cpp hljs">
+void affiche(int s[4]) {
+	for (int i = 0; i < 4; i++) {
+		cout << s[i] << endl;
+	}
+}
+
+int main() {
+	int t[4] = {1, 2, 3, 4};
+	affiche(t);
+	return 0;
+}
+					</code></pre>
+				</section>
+				<section>
+					<h4>Un tableau est <u>toujours passé par référence</u></h4>
+					<pre><code class="cpp hljs">
+// Rappel: ceci ne marche pas
+void affecte1(int x, int val) {
+	x = val;
+}
+
+// Rappel: c'est ceci qui marche
+void affecte2(int &x, int val) {
+	x = val;
+}
+
+// Une fonctione qui marche sans '&'
+void remplit(int s[4], int val) {
+	for (int i = 0; i < 4; i++) {
+		s[i] = val;
+	}
+}
+					</code></pre>
+				</section>
+				<section>
+					<h4>Argument de tableau à taille variable</h4>
+					<pre><code class="cpp hljs">
+// Une fonctione qui marche sans '&'
+void remplit(int s[], int n, int val) {
+	for (int i = 0; i < n; i++) {
+		s[i] = val;
+	}
+}
+					</code></pre>
+				</section>
+				<section>
+					<h4>On ne peux pas retourner un tableau</u></h4>
+					<pre><code class="cpp hljs">
+int[4] mafonction() { // Ne fonctionne pas
+	int t[4] = {1, 2, 3, 4};
+	return t;
+}
+					</code></pre>
+				</section>			
+			</section>

@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 5 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 10</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Multi column -->
+    <style>
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+
+        .mytable {
+            border: 1px solid white !important;;
+        }
+
+        .mytable tr {
+            border: 1px solid white !important;;
+        }
+
+        .mytable td {
+            border: 1px solid white !important;;
+        }
+
+        .refpoly {
+            font-size: 50%;
+            opacity: 50%;
+        }
+    </style>
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 10 - Partie 1</h2>
+        </section>
+        <section>
+            <section>
+                <h3>Constructeurs et Destructeurs</h3>
+                <span class="refpoly">Page 137</span>
+            </section>
+            <section>
+                <h4>Problème</h4>
+                <pre><code class="cpp hljs">
+class point {
+	int x, y;
+public:
+	void get(int &x, int &y);
+	void set(int X, int Y);
+};
+                </code></pre>
+                <pre><code class="cpp hljs">
+point a;
+a.set(2,3); // OK
+...
+point b={2,3}; // Ne fonctionne pas
+                </code></pre>
+            </section>
+            <section>
+                <h4>Les constructeurs</h4>
+                <pre><code class="cpp hljs">
+class point {
+	int x, y;
+public:
+	point(int X, int Y);
+};
+
+point::point(int X, int Y) {
+	x = X;
+	y = Y;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+point a; // Ne fonctionne plus !
+a.set(2,3);
+point b(2, 3); // OK !!
+                </code></pre>
+            </section>
+            <section>
+                <h4>Les constructeurs</h4>
+                <pre><code class="cpp hljs">
+class point {
+	int x, y;
+public:
+	point();
+	point(int X, int Y);
+};
+
+point::point() {
+}
+
+point::point(int X, int Y) {
+	x = X;
+	y = Y;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+point a; // Utilise le constructeur sans argument
+a.set(2,3);
+point b(2, 3); // Utilise le constructeur avec arguments
+                </code></pre>
+            </section>
+            <section>
+                <h4>Les destructeurs</h4>
+                <pre><code class="cpp hljs">
+class obj {
+public:
+	obj();
+	~obj();
+	void affiche();
+}
+
+obj::obj() {
+	cout << "Bonjour !" << endl;
+}
+
+
+obj::~obj() {
+	cout << "Au revoir !" << endl;
+}
+
+void obj::affiche() {
+	cout << "Fonction affiche" << endl;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+	obj monobj; // Bonjour !
+	monobj.affiche(); // Fonction affiche
+	return 0;	// Au revoir !
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Les destructeurs</h4>
+                <pre><code class="cpp hljs">
+class obj {
+	char *tab;
+	int tabsize;
+public:
+	obj(int n);
+	~obj();
+}
+
+obj::obj(int n) {
+	cout << "Je construit tab" << endl;
+	tab = new char[n]
+	tabsize = n;
+}
+
+obj::~obj() {
+	cout << "Je détruit tab" << endl;
+	delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+	obj monobj(10);
+	obj copiedeobj = monobj;
+	return 0; // tab est détruit 2 fois !!
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Les destructeurs</h4>
+                <pre><code class="cpp hljs">
+class obj {
+	char *tab;
+	int tabsize;
+public:
+	obj(int n);
+	~obj();
+}
+
+obj::obj(int n) {
+	cout << "Je construit tab" << endl;
+	tab = new char[n]
+	tabsize = n;
+}
+
+obj::~obj() {
+	cout << "Je détruit tab" << endl;
+	delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+	obj monobj(10);
+	return 0;
+}
+                </code></pre>
+            </section>
+            <section>
+                <h4>Constructeur de copie</h4>
+                <pre><code class="cpp hljs">
+class obj {
+	char *tab;
+	int tabsize;
+public:
+	obj(int n);
+	obj(obj &o);
+	~obj();
+}
+
+obj::obj(int n) {
+	cout << "Je construit tab" << endl;
+	tab = new char[n]
+	tabsize = n;
+}
+
+obj::obj(obj &o) {
+	cout << "Je copie tab" << endl;
+	tab = new char[o.tabsize];
+	tabsize = o.tabsize;
+	for (int i = 0; i < tabsize; i++) {
+		tab[i] = o.tab[i];
+	}
+}
+
+obj::~obj() {
+	cout << "Je détruit tab" << endl;
+	delete[] tab;
+}
+
+                </code></pre>
+                <pre><code class="cpp hljs">
+int main() {
+	obj monobj(10);
+	obj copiedeobj = monobj;
+	return 0; // OK !!
+}
+                </code></pre>
+            </section>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>

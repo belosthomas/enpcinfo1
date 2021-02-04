@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="description" content="Chapitre 1 du cours de C++">
+    <meta name="author" content="Thomas Belos">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Introduction au C++ - Chapitre 1</title>
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/reveal.css">
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" type="text/css" href="/thirdparty/reveal.js-3.8.0/lib/css/monokai.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ? '/thirdparty/reveal.js-3.8.0/css/print/pdf.css' : '/thirdparty/reveal.js-3.8.0/css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="/thirdparty/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <h1>Introduction au C++</h1>
+            <h2>Chapitre 1 - Préambule</h2>
+        </section>
+        <section>
+            <section>
+                <h3>Révisions<br>Erreurs classiques</h3>
+            </section>
+            <section>
+                <span>
+						<h4>Erreurs classiques</h4>
+						<pre><code class="cpp hljs">
+if (i=2) // Mettre un seul = dans les tests if
+
+if (i==2) // Oublier les parenthèses
+
+if (i==2) then // Utiliser then
+						</code></pre>
+                </span>
+            </section>
+            <section>
+                <span>
+						<h4>Erreurs classiques</h4>
+						<pre><code class="cpp hljs">
+// Mettre des virgules dans un for
+for (int i = 0, i < 100, i++)
+
+// Oublier les parenthèses
+// quand on appelle une fonction sans paramètre
+int f() {...}
+int i=f;
+
+int s[4]={1,2,3,4}, t[4];
+t=s; // Vouloir affecter un tableau à un autre
+						</code></pre>
+                </span>
+            </section>
+            <section>
+                <span>
+						<h4>Erreurs originales</h4>
+						<pre><code class="cpp hljs">
+void set(int t[5]) {...}
+int s[5];
+set(int s[5]); // Ceci ne veux rien dire
+set(s); // C'est mieux !
+	                    </code></pre>
+					</span>
+            </section>
+            <section>
+                    <span>
+                        <h4>Erreurs originales</h4>
+						<pre><code class="cpp hljs">
+// Du grand art...
+if (for (int i = 0; i < n; i++) ok(i)) {...};
+
+// C'est mieux
+bool allok = true;
+for (int i = 0; i < n; i++) {
+     allok = allok && ok(i);
+}
+if (allok) {...}
+                            </code></pre>
+					</span>
+                <span class="fragment">
+						<pre><code class="cpp hljs">
+// Encore  mieux !
+bool allok = true;
+for (int i = 0; i < n && allok; i++) {
+     allok = allok && ok(i);
+}
+if (allok) {...}
+                             </code></pre>
+					</span>
+            </section>
+            <section>
+                    <span>
+                        <h4>Erreurs originales</h4>
+						<pre><code class="cpp hljs">
+// Toujours mieux !
+bool allok = true;
+for (int i = 0; i < n && allok; i++) {
+     allok = ok(i);
+}
+if (allok) {...}
+						</code></pre>
+                </span>
+            </section>
+        </section>
+        <section>
+            <section>
+                <h3>Les structures</h3>
+                <p>On crée un nouveau type, qui va regrouper plusieurs variables afin de les manipuler comme une seule.</p>
+            </section>
+            <section>
+                <h3>Examples</h3>
+                <span>
+						<h4>Une structure "Point"</h4>
+						<pre><code class="cpp hljs">
+struct Point {
+    double x, y;
+};
+
+...
+
+Point a;
+a.x = 2.3;
+a.y = 3.4;
+						 </code></pre>
+					</span>
+            </section>
+            <section>
+                    <span>
+                        <h4>Une structure "Cercle"</h4>
+						<pre><code class="cpp hljs">
+struct Cercle {
+    Point centre;
+    double rayon;
+    Color couleur;
+};
+
+...
+
+Cercle C;
+C.centre.x = 12.;
+C.centre.y = 12.;
+C.rayon = 10.4;
+C.couleur = Red;
+						</code></pre>
+					</span>
+            </section>
+            <section>
+					<span>
+						<h4>Utilisation</h4>
+						<pre><code class="cpp hljs">
+struct Point {
+    double x, y;
+};
+
+...
+
+Point a;
+a.x = 2.3;
+a.y = 3.4;
+
+Point b = {6.3, 5.8}; // Fonctionne
+
+a = b; // Fonctionne
+
+a = {2.3, 3.4}; // Ne fonctionne pas
+						</code></pre>
+					</span>
+            </section>
+            <section>
+					<span>
+						<h4>Utilisation</h4>
+						<pre><code class="cpp hljs">
+struct Point {
+    double x, y;
+};
+
+
+struct Cercle {
+    Point centre;
+    double rayon;é
+    Color couleur;
+};
+
+...
+
+Cercle C;
+C.centre.x = 12.;
+C.centre.y = 12.;
+C.rayon = 10.4;
+C.couleur = Red;
+
+Cercle D = {{12, 13}, 10.4, Red}; // Fonctionne
+
+C = D; // Fonctionne;
+
+C = {{12, 13}, 10.4, Red}; // Ne fonctionne pas
+						</code></pre>
+					</span>
+            </section>
+        </section>
+        <section>
+            <h2>Installation de Qt Creator</h2>
+            <p><a href="http://thomas.belos.ovh/cours-de-cpp/qt-creator/">http://thomas.belos.ovh/cours-de-cpp/qt-creator/</a></p>
+            <h2>TP1 - Environnement de programmation</h2>
+            <p><a href="http://imagine.enpc.fr/~monasse/Info/">http://imagine.enpc.fr/~monasse/Info/</a></p>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="/thirdparty/reveal.js-3.8.0/js/reveal.js"></script>
+<script type="text/javascript">
+    // More info https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        center: true,
+        hash: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/highlight/highlight.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/search/search.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+            { src: '/thirdparty/reveal.js-3.8.0/plugin/notes/notes.js', async: true }
+        ]
+    });
+</script>
+</body>
+</html>
